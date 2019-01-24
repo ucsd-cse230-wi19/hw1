@@ -3,11 +3,14 @@ ORG=ucsd-cse230-wi19
 ASGN=hw1
 ######################################################
 
-check: src/Hw1.hs
+hw2: src/Hw2.hs 
+	stack exec -- liquid -i src src/Hw2.hs 
+
+hw1: src/Hw1.hs
 	stack exec -- liquid src/Hw1.hs 
 
 tags:
-	hasktags -x -c lib/
+	hasktags -x -c src/
 
 turnin: 
 	git commit -a -m "turnin"
