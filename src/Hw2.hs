@@ -7,6 +7,8 @@ module Hw2 where
 import ProofCombinators
 
 --------------------------------------------------------------------------------
+-- | Recall the `Peano` datatype from class
+--------------------------------------------------------------------------------
 data Peano = Z | S Peano 
   deriving (Eq, Show)
 
