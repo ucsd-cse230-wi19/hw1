@@ -12,7 +12,6 @@ hw1: src/Hw1.hs
 deps: src/ProofCombinators.hs 
 	stack exec -- liquid src/ProofCombinators.hs
 
-
 tags:
 	hasktags -x -c src/
 

@@ -36,11 +36,13 @@ cabal.sandbox.config
 .ghc.environment.*
 cabal.project.local
 
+tests/synthesis/logs/*
+!tests/synthesis/logs/.gitkeep
 /tests/logs/
 /.stack-work/
 /.vagrant/
 TAGS
-tags
+tags*
 a.out
 *.json
 js/
@@ -49,3 +51,10 @@ css/
 *.smt2
 .liquid
 .dir-locals.el
+.tasty-rerun-log
+hie.yaml
+.vim
+tests/**/*.dyn_hi
+tests/**/*.dyn_o
+tests/**/*.hi-boot
+tests/**/*.o-boot
