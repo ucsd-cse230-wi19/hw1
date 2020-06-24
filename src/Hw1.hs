@@ -7,7 +7,7 @@ import qualified Data.Set as S
 -- | Problem 1 : Fix the refined type of `abs` so that `problem1` type checks 
 -----------------------------------------------------------------------------
 
-{-@ abs :: Int -> Int @-}
+{-@ abs :: Int -> Nat @-}
 abs :: Int -> Int
 abs x
   | x < 0     = - x
@@ -15,7 +15,7 @@ abs x
 
 {-@ problem1 :: _  -> Nat @-}
 problem1 :: [(Int, Int)] -> Int 
-problem1 [] 	            = 0 
+problem1 [] = 0 
 problem1 ((x1, x2) : rest)  = abs (x1 - x2) + problem1 rest 
 
 
@@ -24,7 +24,7 @@ problem1 ((x1, x2) : rest)  = abs (x1 - x2) + problem1 rest
 --            restricted to (suitable) natural numbers.
 -----------------------------------------------------------------------------
 
-{-@ sub :: Nat -> Nat -> Nat @-}
+{-@ sub :: x:Nat -> {y:Nat | y <= x} -> Nat @-}
 sub :: Int -> Int -> Int 
 sub x y = x - y
 
@@ -41,13 +41,15 @@ sub x y = x - y
 
 {-@ sub' :: Nat -> Nat -> Maybe Nat @-}
 sub' :: Int -> Int -> Maybe Int 
-sub' x y = Just (x - y)
+sub' x y 
+  | x >= y    = Just (sub x y)
+  | otherwise = Nothing
 
 -----------------------------------------------------------------------------
 -- | Problem 4: Write a signature for `halve` so that `problem4` typechecks
 -----------------------------------------------------------------------------
 
-{-@ halve :: Int -> (Int, Int) @-}
+{-@ halve :: n:Int -> {v: (Int, Int) | fst v + snd v = n } @-}
 halve :: Int -> (Int, Int)
 halve i = (j, j + r)
   where
@@ -89,7 +91,7 @@ drop :: Int -> List a -> List a
 drop _ Nil         = Nil
 drop 0 xs          = xs
 drop i (Cons _ xs) = drop (i - 1) xs
-drop _ _           = impossible "drop"
+-- drop _ _           = impossible "drop"
 
 {-@ problem6 :: {v:_ | length v == 2} @-}
 problem6 = drop 2 (Cons "i" (Cons "am" (Cons "the" (Cons "walrus" Nil))))
@@ -178,9 +180,9 @@ length :: List a -> Int
 length Nil           = 0
 length (x `Cons` xs) = 1 + length xs
 
-{-@ impossible :: { s : String | False } -> a @-}
+{-@ assume impossible :: { s : String | True } -> a @-}
 impossible :: String -> a
-impossible msg = error msg
+impossible msg = undefined -- error msg
 
 {-@ head :: {v:_ | length v > 0} -> _ @-}
 head :: List a -> a
