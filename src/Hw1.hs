@@ -15,7 +15,7 @@ abs x
 
 {-@ problem1 :: _  -> Nat @-}
 problem1 :: [(Int, Int)] -> Int 
-problem1 [] = 0 
+problem1 [] 	            = 0 
 problem1 ((x1, x2) : rest)  = abs (x1 - x2) + problem1 rest 
 
 
@@ -41,15 +41,13 @@ sub x y = x - y
 
 {-@ sub' :: Nat -> Nat -> Maybe Nat @-}
 sub' :: Int -> Int -> Maybe Int 
-sub' x y 
-  | x >= y    = Just (sub x y)
-  | otherwise = Nothing
+sub' x y = Just (x - y)
 
 -----------------------------------------------------------------------------
 -- | Problem 4: Write a signature for `halve` so that `problem4` typechecks
 -----------------------------------------------------------------------------
 
-{-@ halve :: n:Int -> {v: (Int, Int) | fst v + snd v = n } @-}
+{-@ halve :: Int -> (Int, Int) @-}
 halve :: Int -> (Int, Int)
 halve i = (j, j + r)
   where
@@ -91,7 +89,7 @@ drop :: Int -> List a -> List a
 drop _ Nil         = Nil
 drop 0 xs          = xs
 drop i (Cons _ xs) = drop (i - 1) xs
--- drop _ _           = impossible "drop"
+drop _ _           = impossible "drop"
 
 {-@ problem6 :: {v:_ | length v == 2} @-}
 problem6 = drop 2 (Cons "i" (Cons "am" (Cons "the" (Cons "walrus" Nil))))
